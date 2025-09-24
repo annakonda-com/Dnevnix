@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Dnevnix</string>
+    <string name="diary">Дневник</string>
+    <string name="coach">Репетитор</string>
+    <string name="pet">Питомец</string>
+    <string name="settings">Настройки</string>
+    <string name="dnevnix">Дневникс</string>
 </resources>

@@ -3,7 +3,7 @@ package ru.annakondr.dnevnix.navigation
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavKey
 
-class NavigationManager (val backStack: NavBackStack<NavKey>) {
+class NavigationManager (val backStack: NavBackStack) {
     fun back() {
         when (backStack[backStack.size - 1]) {
             PetScreen, CoachScreen, DiaryScreen -> toHomeScreen()

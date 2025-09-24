@@ -35,7 +35,7 @@ import androidx.core.net.toUri
 
 
 @Composable
-fun NavigationBottomBar(backStack: NavBackStack<NavKey>, navigationManager: NavigationManager) {
+fun NavigationBottomBar(backStack: NavBackStack, navigationManager: NavigationManager) {
     val destinationEntries = destinationsFactory()
     NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
         destinationEntries.forEach { destination ->
@@ -59,57 +59,28 @@ fun NavigationBottomBar(backStack: NavBackStack<NavKey>, navigationManager: Navi
 
 @Composable
 fun destinationsFactory(): List<DestinationInterface> {
-    val pharmacy = object : DestinationInterface {
+    val diary = object : DestinationInterface {
         override val key: NavKey = DiaryScreen
-        override val icon = painterResource(R.drawable.outline_medical_services_24)
-        override val description: String = stringResource(R.string.pharmacy)
-        override val label: String = stringResource(R.string.pharmacy)
+        override val icon = painterResource(R.drawable.outline_event_available_24)
+        override val description: String = stringResource(R.string.diary)
+        override val label: String = stringResource(R.string.diary)
     }
 
-    val today = object : DestinationInterface {
-        override val key: NavKey = TodayScreen
-        override val icon = painterResource(R.drawable.outline_calendar_today_24)
-        override val description: String = stringResource(R.string.today)
-        override val label: String = stringResource(R.string.today)
+    val coach = object : DestinationInterface {
+        override val key: NavKey = CoachScreen
+        override val icon = painterResource(R.drawable.outline_account_circle_24)
+        override val description: String = stringResource(R.string.coach)
+        override val label: String = stringResource(R.string.coach)
     }
 
-    val treatment = object : DestinationInterface {
-        override val key: NavKey = TreatmentScreen
-        override val icon = painterResource(R.drawable.outline_insert_chart_24)
-        override val description: String = stringResource(R.string.treatment)
-        override val label: String = stringResource(R.string.treatment)
+    val pet = object : DestinationInterface {
+        override val key: NavKey = PetScreen
+        override val icon = painterResource(R.drawable.mood)
+        override val description: String = stringResource(R.string.pet)
+        override val label: String = stringResource(R.string.pet)
     }
 
-    val history = object : DestinationInterface {
-        override val key: NavKey = HistoryScreen
-        override val icon = painterResource(R.drawable.outline_list_alt_24)
-        override val description: String = stringResource(R.string.history)
-        override val label: String = stringResource(R.string.history)
-    }
-    return listOf<DestinationInterface>(today, pharmacy, treatment, history)
-}
-
-@Composable
-fun SosFAB(context: Context){
-    val dataStoreUserSettings = DataStoreUserSettings(context)
-    val phone by dataStoreUserSettings.readEmergencyNum(context).collectAsState(context.getString(R.string.sos_num))
-    FloatingActionButton(
-        onClick = {
-            val sendIntent = Intent().apply {
-                Intent.setAction = Intent.ACTION_DIAL
-                Intent.setData = phone.toUri()
-            }
-            try {
-                context.startActivity(sendIntent)
-            } catch (e: ActivityNotFoundException) {
-                Log.e("ANNA", "ActivityNotFoundException")
-            }
-        },
-        shape = CircleShape,
-        modifier = Modifier.offset(y = 48.dp).size(60.dp),
-        containerColor = MaterialTheme.colorScheme.primary ) {
-        Icon(painter = painterResource(R.drawable.sosbtn), stringResource(R.string.sosFab))
-    }
+    return listOf<DestinationInterface>(diary, coach, pet)
 }
 
 

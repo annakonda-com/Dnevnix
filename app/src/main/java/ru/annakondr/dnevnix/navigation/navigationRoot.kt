@@ -23,7 +23,7 @@ data object PetScreen : NavKey
 @Composable
 fun NavigationRoot(
     modifier: Modifier,
-    backStack: NavBackStack<NavKey>,
+    backStack: NavBackStack,
     navigationManager: NavigationManager
 ) {
     NavDisplay(

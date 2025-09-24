@@ -7,5 +7,5 @@ import ru.annakondr.dnevnix.navigation.NavigationManager
 
 @Composable
 fun PetScreenUi(modifier : Modifier, navigationManager: NavigationManager){
-    Text("Питомец")
+    Text(modifier = modifier, text = "Питомец")
 }

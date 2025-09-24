@@ -7,5 +7,5 @@ import ru.annakondr.dnevnix.navigation.NavigationManager
 
 @Composable
 fun CoachScreenUi(modifier : Modifier, navigationManager: NavigationManager){
-    Text("Репетитор")
+    Text(modifier = modifier, text = "Репетитор")
 }
