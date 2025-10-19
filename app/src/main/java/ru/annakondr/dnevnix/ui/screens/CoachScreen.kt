@@ -1,26 +1,17 @@
 package ru.annakondr.dnevnix.ui.screens
 
-import android.app.Dialog
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -33,19 +24,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.annakondr.dnevnix.R
-import ru.annakondr.dnevnix.navigation.NavigationManager
 
 import ru.annakondr.dnevnix.ui.components.MessageCard
 
 @Composable
-fun CoachScreenUi(modifier: Modifier, navigationManager: NavigationManager) {
+fun CoachScreenUi(modifier: Modifier) {
     val messages = arrayOf(
         "Привет! Я ваш наставник. Моя задача — помочь вам понять сложный материал " +
                 "и объяснить тему, если что-то осталось непонятным. Обращайтесь!",
@@ -61,7 +48,8 @@ fun CoachScreenUi(modifier: Modifier, navigationManager: NavigationManager) {
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            for (i in 0..k % 4) {
+
+            for (i in 0..k) {
                 if (i % 2 == 0) {
                     MessageCard(
                         MaterialTheme.colorScheme.surfaceContainerLowest,
@@ -86,7 +74,7 @@ fun CoachScreenUi(modifier: Modifier, navigationManager: NavigationManager) {
                 placeholder = { Text(text = stringResource(R.string.help)) },
                 trailingIcon = {
                     IconButton(onClick = {
-                        k++
+                        k+=2
                         text = ""
                     }) {
                         Icon(
@@ -144,10 +132,28 @@ fun CoachScreenUi(modifier: Modifier, navigationManager: NavigationManager) {
             if (showDialog){
                 AlertDialog( title = { Text(text = "Поздравляем!") },
                     text = { Text(text = "Вы прошли тест и заработали 30 монеток!") },
-                    onDismissRequest={}, confirmButton={} )
+                    onDismissRequest={}, confirmButton={ OkButton{
+                        showDialog = false
+                        k = 0
+                        // TODO: Монетки прибавить
+                    } } )
             }
         }
 
     }
 
+}
+
+@Composable
+fun OkButton(onClick: () -> Unit){
+    Button(
+        onClick = {
+            onClick()
+        }
+    ) {
+        Text(
+            text = "Ок", modifier = Modifier.padding(8.dp),
+            color = MaterialTheme.colorScheme.onSurface
+        )
+    }
 }

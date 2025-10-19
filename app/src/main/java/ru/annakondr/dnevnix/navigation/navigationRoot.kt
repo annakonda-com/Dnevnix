@@ -40,7 +40,7 @@ fun NavigationRoot(
                 }
 
                 is CoachScreen -> NavEntry(key) {
-                    CoachScreenUi(modifier, navigationManager)
+                    CoachScreenUi(modifier)
                 }
 
                 is PetScreen -> NavEntry(key) {
