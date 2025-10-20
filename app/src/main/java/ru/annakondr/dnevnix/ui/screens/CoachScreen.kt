@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import ru.annakondr.dnevnix.R
 
 import ru.annakondr.dnevnix.ui.components.MessageCard
+import ru.annakondr.dnevnix.ui.entities.Elephant
 
 @Composable
 fun CoachScreenUi(modifier: Modifier) {
@@ -95,7 +96,8 @@ fun CoachScreenUi(modifier: Modifier) {
                 .align(Alignment.BottomCenter)) {
                 Button(
                     onClick = {
-                        showDialog = true;
+                        showDialog = true
+                        Elephant.money.intValue = Elephant.money.intValue + 30
                     }, shape = RoundedCornerShape(50.dp),
                     border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
                     colors = ButtonColors(
@@ -135,7 +137,6 @@ fun CoachScreenUi(modifier: Modifier) {
                     onDismissRequest={}, confirmButton={ OkButton{
                         showDialog = false
                         k = 0
-                        // TODO: Монетки прибавить
                     } } )
             }
         }

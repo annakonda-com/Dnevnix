@@ -81,7 +81,7 @@ fun BasicTopBar(title: String){
             titleContentColor = MaterialTheme.colorScheme.onPrimary,
         ),
         actions = {
-            IconButton(onClick = { }) {
+            IconButton(onClick = {  }) {
                 Icon(
                     imageVector = Icons.Outlined.Settings,
                     tint = MaterialTheme.colorScheme.onPrimary,
