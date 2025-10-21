@@ -1,6 +1,7 @@
 package ru.annakondr.dnevnix.navigation
 
 
+import android.R.attr.title
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -15,6 +16,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation3.runtime.NavBackStack
@@ -74,19 +76,43 @@ fun destinationsFactory(): List<DestinationInterface> {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun BasicTopBar(title: String){
+fun BasicTopBar(navigationManager: NavigationManager){
+    val currentDest = navigationManager.currentDestination()
+    val title = if (currentDest is LessonScreen){
+        currentDest.lesson.subject
+    } else {
+        when (currentDest) {
+            DiaryScreen -> stringResource(R.string.diary)
+            CoachScreen -> stringResource(R.string.coach)
+            PetScreen -> stringResource(R.string.pet)
+            else -> stringResource(R.string.dnevnix)
+        }
+    }
     TopAppBar(title = {Text(title)},
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primary,
             titleContentColor = MaterialTheme.colorScheme.onPrimary,
         ),
         actions = {
-            IconButton(onClick = {  }) {
+            if (currentDest !in listOf(DiaryScreen, CoachScreen, PetScreen)) {
+                IconButton(onClick = { }) {
+                    Icon(
+                        imageVector = Icons.Outlined.Settings,
+                        tint = MaterialTheme.colorScheme.onPrimary,
+                        contentDescription = stringResource(R.string.settings)
+                    )
+                }
+            }
+        },
+    navigationIcon = {
+        if (currentDest !in listOf(DiaryScreen, CoachScreen, PetScreen)) {
+            IconButton(onClick = { navigationManager.back() }) {
                 Icon(
-                    imageVector = Icons.Outlined.Settings,
-                    tint = MaterialTheme.colorScheme.onPrimary,
-                    contentDescription = stringResource(R.string.settings)
+                    painter = painterResource(R.drawable.outline_arrow_back_24),
+                    contentDescription = "", tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
-        })
+        }
+    }
+    )
 }

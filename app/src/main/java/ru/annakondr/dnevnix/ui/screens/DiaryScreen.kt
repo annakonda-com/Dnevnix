@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -74,16 +75,7 @@ val schedule = listOf(
         Lesson("Литература", "Прочитать повесть 'Капитанская дочка'"),
         Lesson("История", "§19, конспект"),
         Lesson("Физкультура", "Форма по погоде")
-    ),
-    listOf(
-        Lesson("Геометрия", "Задачи 25, 27, 29"),
-        Lesson("Обществознание", "Презентация к семинару по философии"),
-        Lesson("Химия", "Дописать лабораторную работу"),
-        Lesson("Русский язык", "Подготовить тетрадь для проверки"),
-        Lesson("Биология", "§16, презентация"),
-        Lesson("Английский язык", "Составить текст про хобби"),
-        Lesson("ОБЖ", "Посмотреть ролик про сбор-разбор автомата Калашникова")
-    ),
+    )
 )
 
 
@@ -122,23 +114,29 @@ fun DiaryScreenUi(modifier: Modifier, navigationManager: NavigationManager) {
                 )
             }
         }
-        HorizontalPager(state = pagerState, Modifier.padding(8.dp)) { page ->
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                for (day in schedule[pagerState.currentPage]) {
+        HorizontalPager(state = pagerState) { page ->
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.padding(8.dp, 0.dp).fillMaxSize()) {
+                for (day in schedule[page]) {
                     if (day != null) {
                         if (day.done) {
                             ClassCard(
                                 MaterialTheme.colorScheme.tertiaryContainer,
-                                day.subject, day.task, R.drawable.check
+                                day.subject, day.task, R.drawable.check,
+                                day,
+                                navigationManager,
                             )
                         } else {
                             ClassCard(
                                 MaterialTheme.colorScheme.surfaceContainerLowest,
-                                day.subject, day.task, R.drawable.outline_arrow_right_24
+                                day.subject, day.task, R.drawable.outline_arrow_right_24,
+                                day,
+                                navigationManager
                             )
                         }
                     } else {
-                        Text("Выходной", style = MaterialTheme.typography.headlineMedium)
+                        Text("Выходной", style = MaterialTheme.typography.headlineMedium,
+                            textAlign = TextAlign.Center)
                     }
 
                 }
