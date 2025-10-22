@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -31,58 +33,90 @@ import ru.annakondr.dnevnix.navigation.NavigationManager
 import ru.annakondr.dnevnix.ui.entities.Elephant
 
 @Composable
-fun PetScreenUi(modifier : Modifier, navigationManager: NavigationManager){
+fun PetScreenUi(modifier: Modifier, navigationManager: NavigationManager) {
     var showDialog by remember { mutableStateOf(false) }
-    Column (horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier.padding(8.dp).fillMaxSize()){
-        Row(Modifier.
-        background(MaterialTheme.colorScheme.surfaceContainerLowest, RoundedCornerShape(40.dp)).
-        border(2.dp, color = MaterialTheme.colorScheme.primary,
-            shape = RoundedCornerShape(40.dp)).padding(8.dp)
-            .align(Alignment.CenterHorizontally),
-            verticalAlignment = Alignment.CenterVertically){
-            Image(painter = painterResource(R.drawable.money), contentDescription = "",
-                modifier = Modifier.size(35.dp))
-            Text(Elephant.money.intValue.toString(), style= MaterialTheme.typography.headlineLarge, modifier = Modifier.padding(20.dp, 0.dp))
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier
+            .verticalScroll(rememberScrollState())
+            .padding(8.dp)
+            .fillMaxSize()
+    ) {
+        Row(
+            Modifier
+                .background(
+                    MaterialTheme.colorScheme.surfaceContainerLowest,
+                    RoundedCornerShape(40.dp)
+                )
+                .border(
+                    2.dp, color = MaterialTheme.colorScheme.primary,
+                    shape = RoundedCornerShape(40.dp)
+                )
+                .padding(8.dp)
+                .align(Alignment.CenterHorizontally),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = painterResource(R.drawable.money), contentDescription = "",
+                modifier = Modifier.size(35.dp)
+            )
+            Text(
+                Elephant.money.intValue.toString(),
+                style = MaterialTheme.typography.headlineLarge,
+                modifier = Modifier.padding(20.dp, 0.dp)
+            )
         }
         if (Elephant.mood.intValue >= 60) {
             Image(
                 painter = painterResource(R.drawable.elephant), "",
-                modifier = Modifier.fillMaxWidth().weight(1f)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
             )
         } else {
             Image(
                 painter = painterResource(R.drawable.sad_elephant), "",
-                modifier = Modifier.fillMaxWidth().weight(1f)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
             )
         }
-        Row(verticalAlignment = Alignment.CenterVertically){
-            Icon(painter = painterResource(R.drawable.mood), "",
-                modifier = Modifier.size(70.dp), tint = MaterialTheme.colorScheme.inversePrimary)
-            Text(Elephant.mood.intValue.toString(), style= MaterialTheme.typography.headlineLarge,
-                modifier = Modifier.padding(20.dp, 0.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                painter = painterResource(R.drawable.mood), "",
+                modifier = Modifier.size(70.dp), tint = MaterialTheme.colorScheme.inversePrimary
+            )
+            Text(
+                Elephant.mood.intValue.toString(), style = MaterialTheme.typography.headlineLarge,
+                modifier = Modifier.padding(20.dp, 0.dp)
+            )
         }
         Button(onClick = {
-            if (Elephant.CanFeed()){
+            if (Elephant.CanFeed()) {
                 Elephant.FeedElephant()
             } else {
                 showDialog = true
             }
         }, shape = RoundedCornerShape(24.dp)) {
             Row() {
-                Icon(painter = painterResource(R.drawable.bananas_svgrepo_com), "",
-                    modifier = Modifier.size(70.dp), tint = MaterialTheme.colorScheme.inversePrimary)
+                Icon(
+                    painter = painterResource(R.drawable.bananas_svgrepo_com), "",
+                    modifier = Modifier.size(70.dp), tint = MaterialTheme.colorScheme.inversePrimary
+                )
                 Column() {
-                    Text("ПОКОРМИТЬ", style= MaterialTheme.typography.headlineLarge)
-                    Text("20 монет", style= MaterialTheme.typography.headlineSmall)
+                    Text("ПОКОРМИТЬ", style = MaterialTheme.typography.headlineLarge)
+                    Text("20 монет", style = MaterialTheme.typography.headlineSmall)
                 }
             }
         }
     }
-    if (showDialog){
-        AlertDialog( title = { Text(text = "Нет монет!") },
+    if (showDialog) {
+        AlertDialog(
+            title = { Text(text = "Нет монет!") },
             text = { Text(text = "У вас недостаточно монеток, чтобы покормить слоника!") },
-            onDismissRequest={}, confirmButton={ OkButton{
-                showDialog = false
-            } } )
+            onDismissRequest = {}, confirmButton = {
+                OkButton {
+                    showDialog = false
+                }
+            })
     }
 }

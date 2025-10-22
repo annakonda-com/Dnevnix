@@ -1,15 +1,20 @@
 package ru.annakondr.dnevnix.ui.screens
 
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -84,7 +89,12 @@ fun DiaryScreenUi(modifier: Modifier, navigationManager: NavigationManager) {
     val pagerState = rememberPagerState(initialPage = 3, pageCount = { 7 })
     val animationScope = rememberCoroutineScope()
     val daysOfWeek = listOf("вт", "ср", "чт", "пт", "сб", "вс", "пн")
-    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        modifier
+            .scrollable(rememberScrollState(), Orientation.Vertical)
+            .fillMaxHeight(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
@@ -115,8 +125,12 @@ fun DiaryScreenUi(modifier: Modifier, navigationManager: NavigationManager) {
             }
         }
         HorizontalPager(state = pagerState) { page ->
-            Column(verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.padding(8.dp, 0.dp).fillMaxSize()) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier
+                    .padding(8.dp, 0.dp)
+                    .fillMaxSize()
+            ) {
                 for (day in schedule[page]) {
                     if (day != null) {
                         if (day.done) {
@@ -135,8 +149,10 @@ fun DiaryScreenUi(modifier: Modifier, navigationManager: NavigationManager) {
                             )
                         }
                     } else {
-                        Text("Выходной", style = MaterialTheme.typography.headlineMedium,
-                            textAlign = TextAlign.Center)
+                        Text(
+                            "Выходной", style = MaterialTheme.typography.headlineMedium,
+                            textAlign = TextAlign.Center
+                        )
                     }
 
                 }
